@@ -53,9 +53,9 @@ button:hover {
 #c {
     background-color: red;
     margin: 0;
-    width: fit-content;
+    width: 250px;
     height: fit-content;
-    text-align: center;
+    text-align: right;
 }
 #clock {
     color: white;
@@ -68,7 +68,7 @@ button:hover {
 #time {
     color: white;
     font-weight: 1000;
-    font-size: 15px;
+    font-size: 20px;
     text-align: center;
 }
 #hrc {

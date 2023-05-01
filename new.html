@@ -1,0 +1,14 @@
+<h1>Create New Server</h1>
+
+<form action="/servers/new" method="GET">
+    <label>Class</label>
+    <select name="class">
+        <option>Race</option>
+        <option>Practice</option>
+    </select><br>
+    <label>Car</label>
+    <input type="text" name="car"><br>
+    <label>Track</label>
+    <input type="text" name="track"><br>
+    <input type="submit" name="save" value="save" onclick="window.location.href='/servers'">
+</form>

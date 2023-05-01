@@ -92,4 +92,19 @@
             <td>Nordscleife</td>
         </tr>
     </table>
+    <button onclick="window.location.href='/servers/new'">New</button>
+    <table>
+        <th>ID</th>
+        <th>Rogue ID</th>
+        <th>Class</th>
+        <th>Car</th>
+        <th>Track</th>
+    %for row in rows:
+    <tr>
+    %for col in row:
+        <td>{{col}}</td>
+    %end
+    </tr>
+    %end
+    </table>
 </body>
