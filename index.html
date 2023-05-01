@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<head>
+    <title>Page Title</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body 
+onload="startTime(),
+startCalendar()"
+>
+<nav>
+    <h1 id="t1">Rogue Racing Hub</h1>
+    <button onclick="window.location.href='index.html'" class="pages">Home</button>
+    <button onclick="window.location.href='index.html'" class="pages">Fareharbor</button>
+    <button onclick="window.location.href='servers.html'" class="pages">Servers</button>
+    <button onclick="window.location.href='/sigma'" class="pages">Sigma Laucnher</button>
+    <button onclick="window.location.href='https://192.168.1.12:6001/ACLauncherControl'" class="pages">Lounge Control</button>
+</nav>
+<section id="c">
+    <p id="time">TIME</p>
+    <hr id="hrc">
+    <div id="clock"></div>
+    <script src="scripts/clock.js"></script>
+    <div id="cal"></div>
+    <script src="scripts/calendar.js"></script>
+</section>
+</div>
+<div id="bg"></div>
+</body>
+<footer>
+    <p>Designed By Matthew Winer</p>
+    <p>2023 Frostie Studios</p>
+</footer>
