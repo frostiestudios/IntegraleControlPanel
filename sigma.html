@@ -7,76 +7,25 @@
     <nav>
         <h1 id="t1">Rogue Racing Hub</h1>
         <button onclick="window.location.href='/'" class="pages">Home</button>
-        <button onclick="window.location.href='index.html'" class="pages">Fareharbor</button>
-        <button onclick="window.location.href='servers.html'" class="pages">Servers</button>       
-        <button onclick="window.location.href='SigmaLauncher.html'" class="pages">Sigma Laucnher</button>
+        <button onclick="window.location.href='/'" class="pages">Fareharbor</button>
+        <button onclick="window.location.href='/servers.'" class="pages">Servers</button>       
+        <button onclick="window.location.href='/sigma'" class="pages">Sigma Laucnher</button>
         <button onclick="window.location.href='SigmaLauncher.html'" class="pages">Lounge Control</button>
     </nav>
 </section>
 <h1> Sigma Launcher </h1>
+<button onclick="window.location.href='/sigma/new'">New</button>
 <table>
     <th>PC</th>
     <th>IP</th>
-    <th>GO</th>
+    <th>Name</th>
+    %for row in rows:
     <tr>
-        <td>1</td>
-        <td>192.168.1.50</td>
-        <td><button onclick="window.location.href='http://192.168.1.50'">Rogue 1</button></td>
+        <td>{{row[0]}}</td>
+        <td>{{row[1]}}</td>
+        <td>{{row[2]}}</td>
+        <td><a href="http://{{row[1]}}">{{row[1]}}</a></td>
     </tr>
-    <tr>
-        <td>2</td>
-    </tr>
-    <tr>
-        <td>3</td>
-    </tr>
-    <tr>
-        <td>4</td>
-    </tr>
-    <tr>
-        <td>5</td>
-    </tr>
-    <tr>
-        <td>6</td>
-    </tr>
-    <tr>
-        <td>7</td>
-    </tr>
+    %end
 </table>
-<div id="sig">
-    <div class="sig2">
-    <h2>R-1</h2>
-    <p>IP: 192.168.1.50</p>
-    <button onclick="window.location.href='http://192.168.1.50'">Rogue 1</button>
-    </div>
-
-    <div class="sig2">
-    <h2>R-2</h2>
-    <p>IP: 192.168.1.50</p>
-    <button onclick="window.location.href='http://192.168.1.58'">Rogue 2</button>
-    </div>
-
-    <div class="sig2">
-    <h2>R-3</h2>
-    <p>IP: 192.168.1.50</p>
-    <button onclick="window.location.href='http://192.168.1.68'">Rogue 3</button>
-    </div>
-
-    <div class="sig2">
-    <h2>R-4</h2>
-    <p>IP: 192.168.1.50</p>
-    <button onclick="window.location.href='http://192.168.1.54'">Rogue 4</button>
-    </div>
-
-    <div class="sig2">
-    <h2>R-5</h2>
-    <p>IP: 192.168.1.50</p>
-    <button onclick="window.location.href='http://192.168.1.66'">Rogue 5</button>
-    </div>
-
-    <div class="sig2">
-    <h2>R-6</h2> 
-    <p>IP: 192.168.1.50</p>
-    <button onclick="window.location.href='http://192.168.1.67'">Rogue 6</button>
-    </div>
-</div>
 </body>
