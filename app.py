@@ -1,5 +1,7 @@
 from bottle import static_file, route, run, template, request, redirect
 import sqlite3
+import socket
+import os
 @route('/<filename:path>')
 def index(filename):
     return static_file(filename, root='')
@@ -54,27 +56,48 @@ def new():
     else:
         return template("new")
 #Content
-#Cars
-@route('/content/cars')
-def content():
+#cars
+@route('/cars')
+def cars():
     conn = sqlite3.connect('content.db')
     c = conn.cursor()
-    c.execute('SELECT id, make, model, year, country FROM cars')
+    c.execute('SELECT id, make, model, acid, file FROM cars')
     result = c.fetchall()
     c.close()
-    output = template('ccars', rows=result)
+    output = template('content', rows=result)
     return output
-@route('/content/cars/new',method='GET')
+
+@route('/cars/new',method='GET')
 def new():
     if request.GET.get('save','').strip():
         make = request.GET.get('make','').strip()
         model = request.GET.get('model','').strip()
-        year = request.GET.get('year','').strip()
-        country = request.GET.get('','').strip()
+        acid = request.GET.get('acid','').strip()
+
+        upload = request.files.get('file')
+        if not upload:
+            return "No file selected."
+
+        name, ext = os.path.splitext(upload.filename)
+        filename = os.path.join(UPLOAD_DIR,f"{name}{ext}")
+        upload.save()
+
+        url = f"/content/{name}{ext}"
         conn = sqlite3.connect('content.db')
         c = conn.cursor()
-        c.execute("INSERT INTO cars (make,model,year,country) VALUES ()")
-        
-        
-        
-run(host='localhost',port=5150,debug=True,reloader=True)
+        c.execute("INSERT INTO cars (make,model,acid,file) VALUES (?,?,?,?)",(make,model,acid,url))
+        conn.commit()
+        c.close()
+        return redirect('/cars')
+    else:
+        return template("newcar")
+
+host = socket.gethostname()
+ip = socket.gethostbyname(host)    
+print("--------------")   
+print(host)
+print(f"http://{ip}:5150")
+print("--------------")
+
+
+run(host='192.168.1.12',port=5150,debug=True,reloader=True)

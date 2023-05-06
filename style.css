@@ -100,3 +100,6 @@ td {
 td:hover {
     font-weight: bolder;
 }
+#cdiv {
+    border: 1px solid red
+}

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<form action="/cars/new" method="POST" enctype="multipart/form-data">
+    <label>Make</label>
+    <input type="text" name="make">
+
+    <label>Model</label>
+    <input type="text" name="model">
+
+    <label>AC-ID</label>
+    <input type="text" name="acid">
+
+    <label>File</label>
+    <input type="file" name="file">
+
+    <input type="submit" name="save" value="save" onclick="window.location.href='/cars'">
+</form>
