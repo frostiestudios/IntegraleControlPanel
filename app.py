@@ -89,27 +89,24 @@ def newp():
         c.close()
         return redirect('/cars')
     return template("newcar")
-@route('/cars/new',method='GET')
-def new():
-    if request.GET.get('save','').strip():
-        make = request.GET.get('make','').strip()
-        model = request.GET.get('model','').strip()
-        acid = request.GET.get('acid','').strip()
+@route('/cars/upload')
+def upload():
+    return template('newcar')
+@route('/cars/upload', method='POST')
+def do_upload():
+    if request.forms.get('save'):
+        make = request.forms.get('make') 
+        model = request.forms.get('model')
+        acid = request.forms.get('acid')
+        file = request.forms.get('file')
+        name, ext = os.path.splitext(file.filename)
 
-        upload = request.files.get('file')
-
-        print(upload)
-        name, ext = os.path.splitext(upload.filename)
-        filename = os.path.join(UPLOAD_DIR,f"{name}{ext}")
-        upload.save()
-
-        url = f"/content/{name}{ext}"
-        conn = sqlite3.connect('content.db')
-        c = conn.cursor()
-        c.execute("INSERT INTO cars (make,model,acid,file) VALUES (?,?,?,?)",(make,model,acid,url))
-        conn.commit()
-        c.close()
-        return redirect('/cars')
+        save_path = "/storage/"
+        if not os.path.exists(save_path):
+            os.makedirs(save_path)
+        
+        file_path = "{path}/{file}".format(path=save_path, file=file.filename)
+        file.save(file_path)
     else:
         return template("newcar")
 
