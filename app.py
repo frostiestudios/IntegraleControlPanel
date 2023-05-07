@@ -2,6 +2,10 @@ from bottle import static_file, route, run, template, request, redirect
 import sqlite3
 import socket
 import os
+@route('/content/<filename:path>')
+def file(filename):
+    return static_file(filename, root='./content/')
+
 @route('/<filename:path>')
 def index(filename):
     return static_file(filename, root='')
@@ -67,6 +71,24 @@ def cars():
     output = template('content', rows=result)
     return output
 
+@route('/cars/post', method='POST')
+def newp():
+    if request.forms.get('submit') == 'upload':
+        return template("newcar")
+        make = request.forms.get('make')
+        model = request.forms.get('model')
+        acid = request.forms.get('acid')
+        upload = request.files.get('file')
+        name, ext = os.path.splitext(upload.filename)
+        save_path = "/content"
+        upload.save(save_path)
+        conn = sqlite3.connect('content.db')
+        c = conn.cursor()
+        c.execute("INSERT INTO cars (make,model,acid,file) VALUES (?,?,?,?)",(make,model,acid,upload))
+        conn.commit()
+        c.close()
+        return redirect('/cars')
+    return template("newcar")
 @route('/cars/new',method='GET')
 def new():
     if request.GET.get('save','').strip():
@@ -75,9 +97,8 @@ def new():
         acid = request.GET.get('acid','').strip()
 
         upload = request.files.get('file')
-        if not upload:
-            return "No file selected."
 
+        print(upload)
         name, ext = os.path.splitext(upload.filename)
         filename = os.path.join(UPLOAD_DIR,f"{name}{ext}")
         upload.save()
