@@ -1,16 +1,24 @@
 <!DOCTYPE html>
-<form action="/cars/upload" method="post">
-    <label>Make</label>
-    <input type="text" name="make">
+<html>
+<head>
+    <title>New Car Form</title>
+</head>
+<body>
+    <h1>New Car Form</h1>
+    <form action="/cars/upload" method="post" enctype="multipart/form-data">
+        <label for="make">Make:</label>
+        <input type="text" name="make" id="make"><br>
 
-    <label>Model</label>
-    <input type="text" name="model">
+        <label for="model">Model:</label>
+        <input type="text" name="model" id="model"><br>
 
-    <label>AC-ID</label>
-    <input type="text" name="acid">
+        <label for="acid">Acid:</label>
+        <input type="text" name="acid" id="acid"><br>
 
-    <label>File</label>
-    <input type="file" name="file">
+        <label for="upload">File:</label>
+        <input type="file" name="upload" id="upload"><br>
 
-    <input type="submit" name="save" value="save" onclick="window.location.href='/cars'">
-</form>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

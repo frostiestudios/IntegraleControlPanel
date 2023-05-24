@@ -91,24 +91,25 @@ def newp():
     return template("newcar")
 @route('/cars/upload')
 def upload():
-    return template('newcar')
+    return template("newcar")
 @route('/cars/upload', method='POST')
 def do_upload():
-    if request.forms.get('save'):
-        make = request.forms.get('make') 
-        model = request.forms.get('model')
-        acid = request.forms.get('acid')
-        file = request.forms.get('file')
-        name, ext = os.path.splitext(file.filename)
+    make = request.forms.get('make') 
+    model = request.forms.get('model')
+    acid = request.forms.get('acid')
+    upload = request.files.get('upload')
 
-        save_path = "/storage/"
+    if upload is not None:
+        name, ext = os.path.splitext(upload.filename)
+        save_path = "./storage"
         if not os.path.exists(save_path):
             os.makedirs(save_path)
-        
-        file_path = "{path}/{file}".format(path=save_path, file=file.filename)
-        file.save(file_path)
+        # Increase the maximum file size to 50 MB
+        upload.save(save_path)
+        return redirect("/cars")
     else:
-        return template("newcar")
+        return 'No file uploaded'
+
 
 host = socket.gethostname()
 ip = socket.gethostbyname(host)    
