@@ -1,7 +1,10 @@
 from bottle import static_file, route, run, template, request, redirect
+import bottle
 import sqlite3
 import socket
 import os
+
+bottle.BaseRequest.MEMFILE_MAX = 500 * 1024 * 1024 #500MB
 @route('/storage/<filename:path>')
 def file(filename):
     return static_file(filename, root='./storage/')
