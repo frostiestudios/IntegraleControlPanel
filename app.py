@@ -73,7 +73,29 @@ def cars():
     output = template('content', rows=result)
     return output
 
+@route('/mods/upload')
+def upload():
+    return template("newmod")
 
+@route('/mods/upload', method='POST')
+def do_upload():
+    uploadname = request.forms.get('name')
+    upload = request.files.get('file')
+    if upload is not None:
+        name, ext = os.path.splitext(upload.filename)
+        save_path = './storage'
+        if not os.path.exists(save_path):
+            os.makedirs(save_path)
+        upload.save(save_path)
+        conn = sqlite3.connect('content.db')
+        c = conn.cursor()
+        fname = name + ext
+        c.execute("INSERT INTO mods (name,file) VALUE (?,?)", (uploadname,fname))
+        conn.comit()
+        conn.close()
+        return redirect('/mods')
+    else:
+        return "NO FILE UPLOADED"
 @route('/cars/upload')
 def upload():
     return template("newcar")
