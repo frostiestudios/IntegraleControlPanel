@@ -4,10 +4,11 @@ import sqlite3
 import socket
 import os
 
-bottle.BaseRequest.MEMFILE_MAX = 500 * 1024 * 1024 #500MB
+bottle.BaseRequest.MEMFILE_MAX = 50000000 #500MB
 @route('/storage/<filename:path>')
-def file(filename):
-    return static_file(filename, root='./storage/')
+def download(filename):
+    return static_file(filename, root='./storage/', download=filename)
+
 @route('/<filename:path>')
 def index(filename):
     return static_file(filename, root='./scripts/')
@@ -72,10 +73,28 @@ def cars():
     c.close()
     output = template('content', rows=result)
     return output
-#MODS
+#Tracks
+@route('/tracks')
+def tracks():
+    conn = sqlite3.connect('content.db')
+    c = conn.cursor()
+    c.execute('SELECT id, name, file FROM tracks')
+    result = c.fetchall()
+    c.close()
+    output = template('tracks', rows=result)
+    return output
+#Mods
 @route('/mods')
 def mods():
-    
+    conn = sqlite3.connect('content.db')
+    c = conn.cursor()
+    c.execute("SELECT id, name, file FROM mods")
+    result = c.fetchall()
+    c.close()
+    output = template('mods', rows=result)
+    return output
+
+#Mods NEW
 @route('/mods/upload')
 def upload():
     return template("newmod")
@@ -84,6 +103,32 @@ def upload():
 def do_upload():
     uploadname = request.forms.get('name')
     upload = request.files.get('file')
+
+    if upload is not None:
+        name, ext = os.path.splitext(upload.filename)
+        save_path = './storage'
+        if not os.path.exists(save_path):
+            os.makedirs(save_path)
+        # HELP
+        upload.save(save_path)
+        conn = sqlite3.connect('content.db')
+        c = conn.cursor()
+        fname = name + ext
+        c.execute("INSERT INTO mods (name,file) VALUES (?,?)", (uploadname,fname))
+        conn.commit()
+        conn.close()
+        return redirect('/mods')
+    else:
+        return "NO FILE UPLOADED"
+#Upload Tracks
+@route('/tracks/upload')
+def upload():
+    return template("newtrack")
+@route('/tracks/upload', method="POST")
+def do_upload():
+    uploadname = request.forms.get('name')
+    upload = request.files.get('file')
+
     if upload is not None:
         name, ext = os.path.splitext(upload.filename)
         save_path = './storage'
@@ -93,12 +138,13 @@ def do_upload():
         conn = sqlite3.connect('content.db')
         c = conn.cursor()
         fname = name + ext
-        c.execute("INSERT INTO mods (name,file) VALUE (?,?)", (uploadname,fname))
-        conn.comit()
+        c.execute("INSERT INTO tracks (name,file) VALUES (?,?)", (uploadname,fname))
+        conn.commit()
         conn.close()
-        return redirect('/mods')
+        return redirect('/tracks')
     else:
         return "NO FILE UPLOADED"
+#Upload Cars
 @route('/cars/upload')
 def upload():
     return template("newcar")
