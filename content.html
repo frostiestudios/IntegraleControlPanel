@@ -23,16 +23,21 @@
         <th>ID</th>
         <th>Make</th>
         <th>Model</th>
-        <th>AC-ID</th>
-        <th>file</th>
+        <th>File</th>
+        <th></th>
+        <th>Download</th>
+        <th>Engine</th>
+        <th>Drivetrain</th>
         %for row in rows:
         <tr>
             <td>{{row[0]}}</td>
             <td>{{row[1]}}</td>
             <td>{{row[2]}}</td>
-            <td>{{row[3]}}</td>
             <td>{{row[4]}}</td>
-            <td><a href="/storage/{{row[4]}}">{{row[4]}}</a></td>
+            <td>{{row[3]}}</td>
+            <td><a href="/storage/{{row[4]}}">Download</a></td>
+            <td>{{row[5]}}</td>
+            <td>{{row[6]}}</td>
         </tr>
         %end
     </table>

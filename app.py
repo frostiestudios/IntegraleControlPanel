@@ -68,7 +68,7 @@ def new():
 def cars():
     conn = sqlite3.connect('content.db')
     c = conn.cursor()
-    c.execute('SELECT id, make, model, acid, file FROM cars')
+    c.execute('SELECT id, make, model, acid, file, engine, drivetrain FROM cars')
     result = c.fetchall()
     c.close()
     output = template('content', rows=result)
