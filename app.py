@@ -2,13 +2,12 @@ from bottle import static_file, route, run, template, request, redirect
 import sqlite3
 import socket
 import os
-@route('/content/<filename:path>')
+@route('/storage/<filename:path>')
 def file(filename):
-    return static_file(filename, root='./content/')
-
+    return static_file(filename, root='./storage/')
 @route('/<filename:path>')
 def index(filename):
-    return static_file(filename, root='')
+    return static_file(filename, root='./scripts/')
 @route('/')
 def index():
     return static_file('index.html',root='')
@@ -71,24 +70,7 @@ def cars():
     output = template('content', rows=result)
     return output
 
-@route('/cars/post', method='POST')
-def newp():
-    if request.forms.get('submit') == 'upload':
-        return template("newcar")
-        make = request.forms.get('make')
-        model = request.forms.get('model')
-        acid = request.forms.get('acid')
-        upload = request.files.get('file')
-        name, ext = os.path.splitext(upload.filename)
-        save_path = "/content"
-        upload.save(save_path)
-        conn = sqlite3.connect('content.db')
-        c = conn.cursor()
-        c.execute("INSERT INTO cars (make,model,acid,file) VALUES (?,?,?,?)",(make,model,acid,upload))
-        conn.commit()
-        c.close()
-        return redirect('/cars')
-    return template("newcar")
+
 @route('/cars/upload')
 def upload():
     return template("newcar")
@@ -106,6 +88,13 @@ def do_upload():
             os.makedirs(save_path)
         # Increase the maximum file size to 50 MB
         upload.save(save_path)
+        #Append Info
+        conn = sqlite3.connect('content.db')  # Replace 'your_database.db' with your actual database name
+        c = conn.cursor()
+        fname = name + ext
+        c.execute("INSERT INTO cars (make, model, acid, file) VALUES (?, ?, ?, ?)", (make, model, acid,fname))
+        conn.commit()
+        conn.close()
         return redirect("/cars")
     else:
         return 'No file uploaded'
@@ -119,4 +108,4 @@ print(f"http://{ip}:5150")
 print("--------------")
 
 
-run(host='192.168.1.12',port=5150,debug=True,reloader=True)
+run(host=ip,port=5150,debug=True,reloader=True)
