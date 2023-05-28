@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <head>
-    <title>Cars</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Mods</title>
 </head>
 <body>
     <nav>
@@ -12,7 +11,7 @@
         <button onclick="window.location.href='/sigma'" class="pages">Sigma Laucnher</button>
         <button onclick="window.location.href='https://192.168.1.12:6001/ACLauncherControl'" class="pages">Lounge Control</button>
     </nav>
-    <h1>Cars</h1>
+    <h1>MODS</h1>
     <a href="/mods">MODS</a>
     <a href="/mods/upload">NEW MOD</a><br><hr>
     <a href="/tracks">TRACKS</a>
@@ -21,18 +20,12 @@
     <a href="/cars/upload">New Car</a><br><hr>
     <table>
         <th>ID</th>
-        <th>Make</th>
-        <th>Model</th>
-        <th>AC-ID</th>
-        <th>file</th>
+        <th>2</th>
         %for row in rows:
         <tr>
             <td>{{row[0]}}</td>
             <td>{{row[1]}}</td>
-            <td>{{row[2]}}</td>
-            <td>{{row[3]}}</td>
-            <td>{{row[4]}}</td>
-            <td><a href="/storage/{{row[4]}}">{{row[4]}}</a></td>
+            <td><a href="/storage/{{row[2]}}">Download</a></td>
         </tr>
         %end
     </table>
