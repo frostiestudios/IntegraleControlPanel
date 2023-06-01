@@ -12,10 +12,14 @@ def download(filename):
 @route('/<filename:path>')
 def index(filename):
     return static_file(filename, root='./scripts/')
+
+@route('/<filename:path>')
+def index(filename):
+    return static_file(filename, root='./')
 @route('/')
 def index():
-    return static_file('index.html',root='')
-
+    return static_file('index.html',root='./')
+#Sigma
 @route('/sigma')
 def sigma():
     conn = sqlite3.connect('content.db')
@@ -39,29 +43,31 @@ def new():
         return redirect('/sigma')
     else:
         return template("newpc")
-@route('/servers')  
+#Servers
+@route('/servers')
 def servers():
     conn = sqlite3.connect('content.db')
     c = conn.cursor()
-    c.execute("SELECT id, rid, class, car, track FROM servers")
+    c.execute("SELECT id, name, ip, port, password FROM servers")
     result = c.fetchall()
+    conn.commit()
     c.close()
     output = template('servers', rows=result)
     return output
-@route('/servers/new',method='GET')
+@route('/servers/new',method="GET")
 def new():
     if request.GET.get('save','').strip():
-        raceclass = request.GET.get('class','').strip()
-        car = request.GET.get('car','').strip()
-        track = request.GET.get('track','').strip()
+        name = request.GET.get('name','').strip()
+        ip = request.GET.get('ip','').strip()
+        port = request.GET.get('port','').strip()
+        password = request.GET.get('password','').strip()
         conn = sqlite3.connect('content.db')
-        c = conn.cursor()
-        c.execute("INSERT INTO servers (class,car,track) VALUES (?,?,?)",(raceclass,car,track))
-        conn.commit()
-        c.close()
+        conn.cursor()
+        c.execute("INSERT INTO servers (name, ip, port, password) VALUES (?,?,?,?)",(name,ip,port,password))
         return redirect('/servers')
     else:
-        return template("new")
+        return template("newserver")
+#Presets
 #Content
 #cars
 @route('/cars')

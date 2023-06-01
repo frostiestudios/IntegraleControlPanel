@@ -1,0 +1,10 @@
+table {
+    background-color: lightblue;
+    border: 1px solid black;
+}
+tr {
+    background-color: aliceblue;
+}
+tr:hover {
+    background-color: rgb(240, 243, 255);
+}
